@@ -3,64 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa Mental SIS Completo</title>
+<title>Mapa Mental Interactivo SIS</title>
 <style>
-:root{
-  --bg:#0f1724;
-  --card:#0b1220;
-  --accent:#6ee7b7;
-  --muted:#94a3b8;
-  --shadow:0 6px 20px rgba(2,6,23,0.6);
-  --radius:14px;
-  font-family:Arial, sans-serif;
-}
 body{
   margin:0;
-  height:100%;
-  background: linear-gradient(180deg,#071025 0%, #0f1724 100%);
+  height:100vh;
+  background:#0f1724;
   color:#e6eef6;
+  font-family:Arial, sans-serif;
 }
 .canvas{
   position:relative;
   width:100%;
-  height:100vh;
-  overflow:auto;
+  height:100%;
+  overflow:hidden;
 }
 .node{
   position:absolute;
-  min-width:220px;
+  min-width:200px;
   max-width:300px;
   padding:12px 16px;
-  background:linear-gradient(180deg,var(--card), rgba(255,255,255,0.03));
-  border-radius:var(--radius);
-  border:1px solid rgba(255,255,255,0.04);
-  box-shadow:var(--shadow);
-  line-height:1.25;
-  cursor:default;
-  font-size:13px;
+  background:linear-gradient(180deg,#0b1220,#0f1724);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.05);
+  box-shadow:0 6px 18px rgba(0,0,0,0.6);
+  cursor:grab;
 }
+.node:active{cursor:grabbing;}
 .node .title{
   font-weight:700;
   color:#6ee7b7;
   margin-bottom:6px;
 }
-.node ul{
-  padding-left:16px;
-  margin:6px 0 0;
-}
-.node.root{
-  left:50%; top:10%;
-  transform:translateX(-50%);
-  min-width:280px;
+.node ul{margin:6px 0 0;padding-left:16px;}
+#connectors{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
 }
 </style>
 </head>
 <body>
 <div class="canvas" id="canvas">
-  <svg id="connectors" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;"></svg>
+  <svg id="connectors"></svg>
 
   <!-- Nodo raíz -->
-  <div class="node root" id="n-root" data-id="n-root" data-parent="">
+  <div class="node" id="n-root" data-id="n-root" data-parent="" style="left:50%; top:10%; transform:translateX(-50%);">
     <div class="title">Sistema de Información Sanitario (SIS)</div>
     <p>Conjunto de datos sanitarios organizados que permiten conocer, analizar y gestionar el estado de salud de una población.</p>
     <ul>
@@ -79,12 +70,12 @@ body{
 
   <!-- Nodo SIS del SNS -->
   <div class="node" id="n-sns" data-id="n-sns" data-parent="n-root" style="left:10%; top:25%;">
-    <div class="title">SIS del Sistema Nacional de Salud (SNS)</div>
+    <div class="title">SIS del SNS</div>
     <ul>
       <li><strong>Marco legal:</strong>
         <ul>
           <li>Ley 14/1986 (General de Sanidad): organiza el sistema y crea el Consejo Interterritorial.</li>
-          <li>Ley 16/2003 (Cohesión y Calidad): concentra y regula el SIS-SNS.</li>
+          <li>Ley 16/2003 (Cohesión y Calidad): regula el SIS-SNS.</li>
         </ul>
       </li>
       <li><strong>Objetivos:</strong>
@@ -95,12 +86,12 @@ body{
           <li>Organizaciones: fomentar la participación de asociaciones, ONGs y sociedades científicas.</li>
         </ul>
       </li>
-      <li><strong>Contenidos principales:</strong>
+      <li><strong>Contenidos:</strong>
         <ul>
           <li>Población: características, nivel de salud, utilización del SNS, opiniones.</li>
-          <li>Oferta de servicios: cartera, prevención, asistencia, promoción de la salud.</li>
+          <li>Oferta de servicios: cartera, prevención, asistencia, promoción.</li>
           <li>Recursos sanitarios: estructuras, profesionales, tecnología, farmacia.</li>
-          <li>Capacidad de respuesta: resultados en salud, equidad, calidad, eficiencia, satisfacción ciudadana.</li>
+          <li>Capacidad de respuesta: resultados, equidad, calidad, eficiencia, satisfacción ciudadana.</li>
         </ul>
       </li>
     </ul>
@@ -112,23 +103,23 @@ body{
     <ul>
       <li>Marco básico: legal y organizacional.</li>
       <li>Infraestructura: equipos, software, sistemas TIC.</li>
-      <li>Indicadores: cifras y objetivos sobre salud y servicios.</li>
+      <li>Indicadores: cifras y objetivos.</li>
       <li>Fuentes de datos: registros clínicos, historia clínica digital, CMBD.</li>
-      <li>Gestión de datos: recopilación, almacenamiento y análisis.</li>
+      <li>Gestión de datos: recopilación, almacenamiento, análisis.</li>
       <li>Productos de información: informes y estadísticas procesadas.</li>
-      <li>Difusión y uso: acceso de la información a gestores, profesionales y ciudadanía.</li>
+      <li>Difusión y uso: acceso a gestores, profesionales y ciudadanía.</li>
     </ul>
   </div>
 
-  <!-- Nodo Estrategia Salud Digital -->
-  <div class="node" id="n-estrategia" data-id="n-estrategia" data-parent="n-root" style="left:90%; top:25%;">
+  <!-- Nodo Estrategia -->
+  <div class="node" id="n-estrategia" data-id="n-estrategia" data-parent="n-root" style="left:80%; top:25%;">
     <div class="title">Estrategia de Salud Digital (2021)</div>
     <ul>
       <li>Objetivo: transformación digital del SNS.</li>
-      <li>Servicios digitales inteligentes: telemedicina, apps, historia clínica interoperable.</li>
-      <li>Interoperabilidad: información fluye entre administraciones y sistemas.</li>
-      <li>Analítica de datos: uso de Big Data para decisiones sanitarias.</li>
-      <li>Comisión de Salud Digital
+      <li>Servicios digitales: telemedicina, apps, historia clínica interoperable.</li>
+      <li>Interoperabilidad: flujo entre administraciones.</li>
+      <li>Analítica: Big Data para decisiones sanitarias.</li>
+      <li>Comisión de Salud Digital:
         <ul>
           <li>Subcomisión de Tecnologías</li>
           <li>Subcomisión del SIS del SNS</li>
@@ -137,29 +128,29 @@ body{
     </ul>
   </div>
 
-  <!-- Nodo Información sanitaria -->
+  <!-- Nodo Información -->
   <div class="node" id="n-info" data-id="n-info" data-parent="n-root" style="left:30%; top:50%;">
-    <div class="title">Información en el ámbito sanitario</div>
+    <div class="title">Información sanitaria</div>
     <ul>
       <li>Tipos de datos:
         <ul>
-          <li>No clínicos: encuestas, barómetros, bases de población (tarjeta sanitaria).</li>
-          <li>Clínicos: historia clínica, informes médicos, Historia Digital de Salud (5P).</li>
-          <li>Otras fuentes: Costes (RAE-CMBD, SIAE), Morbilidad (BDCAP), Recursos (SIAP, REGCESS).</li>
+          <li>No clínicos: encuestas, barómetros, bases de población</li>
+          <li>Clínicos: historia clínica, informes, Historia Digital de Salud (5P)</li>
+          <li>Otras fuentes: Costes, Morbilidad, Recursos</li>
         </ul>
       </li>
-      <li>Características: coherente, pertinente, integrable, flexible, accesible.</li>
-      <li>Procesos: Registro, Almacenamiento, Procesamiento (selección y validación), Generación de informes.</li>
-      <li>Usuarios: Ministerio de Sanidad y Consejo Interterritorial → planificar; Comunidades Autónomas → gestionar; Ciudadanos → valorar y participar.</li>
+      <li>Características: coherente, pertinente, integrable, flexible, accesible</li>
+      <li>Procesos: Registro, Almacenamiento, Procesamiento, Generación de informes</li>
+      <li>Usuarios: Ministerio, CCAA, Ciudadanos</li>
     </ul>
   </div>
 
-  <!-- Nodo Niveles asistenciales -->
+  <!-- Nodo Niveles -->
   <div class="node" id="n-niveles" data-id="n-niveles" data-parent="n-root" style="left:70%; top:50%;">
-    <div class="title">Niveles asistenciales del SNS</div>
+    <div class="title">Niveles asistenciales</div>
     <ul>
-      <li>Atención primaria (SIAP): promoción, prevención, asistencia, urgencias.</li>
-      <li>Atención especializada (SIAE): diagnósticos complejos, hospitalización, terapias, rehabilitación.</li>
+      <li>Atención primaria (SIAP): promoción, prevención, asistencia, urgencias</li>
+      <li>Atención especializada (SIAE): diagnósticos, hospitalización, terapias, rehabilitación</li>
     </ul>
   </div>
 
@@ -167,21 +158,15 @@ body{
   <div class="node" id="n-interop" data-id="n-interop" data-parent="n-root" style="left:50%; top:70%;">
     <div class="title">Interoperabilidad</div>
     <ul>
-      <li>Niveles: Técnico (hardware/software), Sintáctico (formatos/mensajes), Semántico (significado común), Organizacional (coordinación).</li>
-      <li>Estándares:
-        <ul>
-          <li>Mensajería: HL7 v2, DICOM (imágenes médicas)</li>
-          <li>Documentación: CCR, CDA, CCD (documentos clínicos)</li>
-          <li>Terminológicos: SNOMED CT, CIE, LOINC</li>
-        </ul>
-      </li>
+      <li>Niveles: Técnico, Sintáctico, Semántico, Organizacional</li>
+      <li>Estándares: Mensajería (HL7, DICOM), Documentación (CCR, CDA, CCD), Terminológicos (SNOMED, CIE, LOINC)</li>
     </ul>
   </div>
 
 </div>
 
 <script>
-// Dibuja las líneas entre nodos padre e hijo
+// Drag & Drop y actualización de conexiones
 const svg = document.getElementById('connectors');
 const nodes = document.querySelectorAll('.node');
 
@@ -192,11 +177,11 @@ function getCenter(el){
 }
 
 function drawConnections(){
-  svg.innerHTML = '';
+  svg.innerHTML='';
   nodes.forEach(n=>{
-    const parentId = n.dataset.parent;
-    if(!parentId) return;
-    const parent = document.getElementById(parentId);
+    const pid = n.dataset.parent;
+    if(!pid) return;
+    const parent = document.getElementById(pid);
     if(!parent) return;
     const c1 = getCenter(parent);
     const c2 = getCenter(n);
@@ -209,9 +194,30 @@ function drawConnections(){
   });
 }
 
+// Drag & Drop
+nodes.forEach(n=>{
+  n.onmousedown = function(e){
+    const shiftX = e.clientX - n.getBoundingClientRect().left;
+    const shiftY = e.clientY - n.getBoundingClientRect().top;
+    function moveAt(pageX,pageY){
+      n.style.left = pageX - shiftX + 'px';
+      n.style.top = pageY - shiftY + 'px';
+      drawConnections();
+    }
+    function onMouseMove(e){
+      moveAt(e.pageX,e.pageY);
+    }
+    document.addEventListener('mousemove',onMouseMove);
+    n.onmouseup = function(){
+      document.removeEventListener('mousemove',onMouseMove);
+      n.onmouseup = null;
+    }
+  }
+  n.ondragstart = () => false;
+});
+
 window.addEventListener('load', drawConnections);
 window.addEventListener('resize', drawConnections);
 </script>
-
 </body>
 </html>
