@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mapa mental — Sistema de Información Sanitario (SIS)</title>
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --accent:#6ee7b7;
+    --muted:#94a3b8;
+    --glass: rgba(255,255,255,0.03);
+    --shadow: 0 6px 20px rgba(2,6,23,0.6);
+    --card-radius:14px;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#071025 0%, #0f1724 100%);color:#e6eef6}
+  .wrap{height:100vh;display:flex;flex-direction:column;gap:12px;padding:18px;box-sizing:border-box}
+  header{display:flex;align-items:center;gap:12px}
+  header h1{font-size:18px;margin:0}
+  .canvas{
+    position:relative;
+    flex:1;
+    border-radius:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    padding:30px;
+    overflow:auto;
+    box-shadow:var(--shadow);
+  }
+
+  /* SVG layer for connectors fills canvas */
+  #connectors{
+    position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;
+  }
+
+  /* Node styles */
+  .node{
+    position:absolute;
+    min-width:180px;
+    max-width:260px;
+    padding:10px 12px;
+    background:linear-gradient(180deg,var(--card), var(--glass));
+    border-radius:var(--card-radius);
+    box-shadow:0 6px 18px rgba(2,8,20,0.7);
+    border:1px solid rgba(255,255,255,0.04);
+    color:#e6eef6;
+    line-height:1.25;
+    cursor:default;
+  }
+  .node .title{font-weight:700;margin-bottom:6px;font-size:14px;color:var(--accent)}
+  .node .small{font-size:12px;color:var(--muted)}
+  .node .list{margin:6px 0 0;padding-left:16px;font-size:13px;color:#cfe9db}
+
+  /* root bigger */
+  .node.root{
+    left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    min-width:260px;
+    background:linear-gradient(180deg,#042633,#073843);
+    border:1px solid rgba(110,231,183,0.08);
+  }
+  /* different colors for branches for clarity */
+  .branch-a .title{color:#ffd27f}
+  .branch-b .title{color:#9ad1ff}
+  .branch-c .title{color:#cdb1ff}
+  .branch-d .title{color:#ff9fb6}
+  .branch-e .title{color:#9ef9b0}
+
+  /* make nodes draggable visual handle */
+  .node:active{transform:scale(0.997);}
+
+  /* small help text */
+  footer{font-size:12px;color:var(--muted);display:flex;gap:12px;align-items:center}
+  .legend{display:flex;gap:8px;align-items:center}
+  .bubble{width:12px;height:12px;border-radius:6px;display:inline-block;opacity:0.9}
+  .b-a{background:#ffd27f} .b-b{background:#9ad1ff} .b-c{background:#cdb1ff} .b-d{background:#ff9fb6} .b-e{background:#9ef9b0}
+
+  /* responsive */
+  @media (max-width:900px){
+    .node{min-width:160px;max-width:220px}
+    .node.root{min-width:220px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Mapa mental: Sistema de Información Sanitario (SIS)</h1>
+    <div style="margin-left:auto;color:var(--muted)">Abre en navegador — redimensiona para recalcular conexiones</div>
+  </header>
+
+  <div class="canvas" id="canvas">
+    <!-- SVG connectors -->
+    <svg id="connectors" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- Root -->
+    <div class="node root" id="n-root" data-id="n-root" data-parent="">
+      <div class="title">Sistema de Información Sanitario (SIS)</div>
+      <div class="small">Conjunto de datos sanitarios organizados para conocer, analizar y gestionar la salud de la población</div>
+    </div>
+
+    <!-- Main branches -->
+    <div class="node branch-a" id="n-def" data-id="n-def" data-parent="n-root" style="left:50%; top:8%;">
+      <div class="title">Definición</div>
+      <div class="list">Conjunto de datos sanitarios organizados que permiten conocer, analizar y gestionar el estado de salud de una población.</div>
+    </div>
+
+    <div class="node branch-b" id="n-func" data-id="n-func" data-parent="n-root" style="left:85%; top:40%;">
+      <div class="title">Funciones</div>
+      <ul class="list">
+        <li>Recoger</li><li>Procesar</li><li>Comparar</li><li>Analizar</li><li>Transmitir datos</li>
+      </ul>
+    </div>
+
+    <div class="node branch-c" id="n-finalidad" data-id="n-finalidad" data-parent="n-root" style="left:12%; top:40%;">
+      <div class="title">Finalidad</div>
+      <ul class="list">
+        <li>Gestión de servicios sanitarios</li>
+        <li>Definir estrategias de salud</li>
+        <li>Investigación y docencia</li>
+        <li>Generar información estratégica</li>
+      </ul>
+    </div>
+
+    <div class="node branch-d" id="n-oms" data-id="n-oms" data-parent="n-root" style="left:80%; top:8%;">
+      <div class="title">OMS</div>
+      <div class="list">Mecanismo interoperable, datos abiertos y uso ético a través de TIC</div>
+    </div>
+
+    <div class="node branch-e" id="n-sns" data-id="n-sns" data-parent="n-root" style="left:50%; top:78%;">
+      <div class="title">SIS del SNS (Marco legal / objetivos)</div>
+      <ul class="list">
+        <li>Ley 14/1986 — Consejo Interterritorial</li>
+        <li>Ley 16/2003 — SIS-SNS</li>
+        <li>Autoridades, profesionales, ciudadanos, organizaciones</li>
+      </ul>
+    </div>
+
+    <!-- Subnodes for SNS -->
+    <div class="node branch-a" id="n-sns-contenidos" data-id="n-sns-contenidos" data-parent="n-sns" style="left:68%; top:84%;">
+      <div class="title">Contenidos</div>
+      <ul class="list">
+        <li>Población</li><li>Oferta de servicios</li><li>Recursos sanitarios</li><li>Capacidad de respuesta</li>
+      </ul>
+    </div>
+
+    <div class="node branch-b" id="n-componentes" data-id="n-componentes" data-parent="n-root" style="left:18%; top:78%;">
+      <div class="title">Componentes de un SIS</div>
+      <ul class="list">
+        <li>Marco básico</li><li>Infraestructura</li><li>Indicadores</li><li>Fuentes de datos</li>
+        <li>Gestión de datos</li><li>Productos de información</li><li>Difusión y uso</li>
+      </ul>
+    </div>
+
+    <div class="node branch-c" id="n-estrategia" data-id="n-estrategia" data-parent="n-root" style="left:22%; top:18%;">
+      <div class="title">Estrategia Salud Digital (2021)</div>
+      <ul class="list">
+        <li>Transformación digital del SNS</li>
+        <li>Telemedicina, apps, historia interoperable</li>
+        <li>Analítica (Big Data)</li>
+        <li>Comisión y subcomisiones</li>
+      </ul>
+    </div>
+
+    <div class="node branch-d" id="n-info" data-id="n-info" data-parent="n-root" style="left:50%; top:30%;">
+      <div class="title">Información en el ámbito sanitario</div>
+      <ul class="list">
+        <li>Tipos: No clínicos, Clínicos, Otras fuentes</li>
+        <li>Características: coherente, pertinente, integrable...</li>
+        <li>Procesos: registro, almacenamiento, procesamiento, informes</li>
+      </ul>
+    </div>
+
+    <div class="node branch-e" id="n-niveles" data-id="n-niveles" data-parent="n-root" style="left:88%; top:78%;">
+      <div class="title">Niveles asistenciales</div>
+      <ul class="list">
+        <li>Atención primaria (SIAP)</li>
+        <li>Atención especializada (SIAE)</li>
+      </ul>
+    </div>
+
+    <div class="node branch-a" id="n-interop" data-id="n-interop" data-parent="n-root" style="left:2%; top:18%;">
+      <div class="title">Interoperabilidad</div>
+      <ul class="list">
+        <li>Niveles: técnico, sintáctico, semántico, organizacional</li>
+        <li>Estándares: HL7 v2, DICOM, CCR, CDA, SNOMED CT, CIE, LOINC</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="legend">
+      <span class="bubble b-a"></span><span>Definición / Interoperabilidad</span>
+      <span class="bubble b-b"></span><span>Funciones / Componentes</span>
+      <span class="bubble b-c"></span><span>Finalidad / Estrategia</span>
+      <span class="bubble b-d"></span><span>OMS / Información</span>
+      <span class="bubble b-e"></span><span>SNS / Niveles</span>
+    </div>
+    <div style="margin-left:auto;color:var(--muted)">Puedes mover/arrastrar visualmente con el ratón para reorganizar (arrastrar implementado)</div>
+  </footer>
+</div>
+
+<script>
+/*
+ Simple connector drawer and drag-to-move for nodes.
+ - Nodes identified by data-id
+ - Nodes reference parent in data-parent = parent-id
+ - On load/resize/move it redraws SVG cubic curves between centers
+*/
+
+const svg = document.getElementById('connectors');
+const canvas = document.getElementById('canvas');
+
+function getCenter(el){
+  const r = el.getBoundingClientRect();
+  const c = canvas.getBoundingClientRect();
+  return { x: r.left + r.width/2 - c.left, y: r.top + r.height/2 - c.top };
+}
+
+function clearSVG(){
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+}
+
+function drawCurve(from, to, color = 'rgba(110,231,183,0.7)'){
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  const dx = Math.abs(to.x - from.x);
+  const dy = Math.abs(to.y - from.y);
+  const curvature = Math.min(180, Math.max(40, dx*0.3 + dy*0.1));
+  const cx1 = from.x + (to.x > from.x ? curvature : -curvature);
+  const cy1 = from.y;
+  const cx2 = to.x + (to.x > from.x ? -curvature : curvature);
+  const cy2 = to.y;
+  const d = `M ${from.x} ${from.y} C ${cx1} ${cy1} ${cx2} ${cy2} ${to.x} ${to.y}`;
+  path.setAttribute('d', d);
+  path.setAttribute('stroke', color);
+  path.setAttribute('stroke-width', '2.5');
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke-linecap','round');
+  svg.appendChild(path);
+}
+
+function redrawConnectors(){
+  clearSVG();
+  // fix svg size to canvas scrollable area
+  svg.setAttribute('width', canvas.scrollWidth);
+  svg.setAttribute('height', canvas.scrollHeight);
+  const nodes = Array.from(document.querySelectorAll('.node[data-id]'));
+  nodes.forEach(n=>{
+    const pid = n.dataset.parent;
+    if(!pid) return;
+    const parent = document.querySelector(`.node[data-id="${pid}"]`);
+    if(!parent) return;
+    const p1 = getCenter(parent);
+    const p2 = getCenter(n);
+    // color per branch class
+    let color = window.getComputedStyle(n.querySelector('.title') || n).color || '#6ee7b7';
+    // fallback accent
+    drawCurve(p1,p2,'rgba(255,255,255,0.06)');
+    // overlay colored thin curve
+    drawCurve(p1,p2,'rgba(110,231,183,0.85)');
+  });
+}
+
+// Simple drag to move nodes (updates left/top style)
+let drag = { el:null, ox:0, oy:0, startX:0, startY:0 };
+document.querySelectorAll('.node').forEach(node=>{
+  node.addEventListener('mousedown', e=>{
+    // allow drag with left button only
+    if(e.button !== 0) return;
+    drag.el = node;
+    const rect = node.getBoundingClientRect();
+    const c = canvas.getBoundingClientRect();
+    drag.ox = rect.left - c.left;
+    drag.oy = rect.top - c.top;
+    drag.startX = e.clientX;
+    drag.startY = e.clientY;
+    node.style.transition = 'none';
+    e.preventDefault();
+  });
+});
+window.addEventListener('mousemove', e=>{
+  if(!drag.el) return;
+  const dx = e.clientX - drag.startX;
+  const dy = e.clientY - drag.startY;
+  const nx = drag.ox + dx;
+  const ny = drag.oy + dy;
+  // set left/top in px
+  drag.el.style.left = nx + 'px';
+  drag.el.style.top = ny + 'px';
+  redrawConnectors();
+});
+window.addEventListener('mouseup', e=>{
+  if(drag.el){
+    drag.el.style.transition = '';
+    drag.el = null;
+  }
+});
+
+// redraw on load + resize + scroll
+window.addEventListener('load', ()=>{ setTimeout(redrawConnectors,50); });
+window.addEventListener('resize', ()=>{ setTimeout(redrawConnectors,50); });
+canvas.addEventListener('scroll', ()=>{ setTimeout(redrawConnectors,30); });
+
+// Allow touch dragging (mobile)
+let touchDrag = { el:null, startX:0, startY:0, ox:0, oy:0 };
+document.querySelectorAll('.node').forEach(node=>{
+  node.addEventListener('touchstart', e=>{
+    const t = e.touches[0];
+    const rect = node.getBoundingClientRect();
+    const c = canvas.getBoundingClientRect();
+    touchDrag.el = node;
+    touchDrag.startX = t.clientX;
+    touchDrag.startY = t.clientY;
+    touchDrag.ox = rect.left - c.left;
+    touchDrag.oy = rect.top - c.top;
+    e.preventDefault();
+  }, {passive:false});
+});
+window.addEventListener('touchmove', e=>{
+  if(!touchDrag.el) return;
+  const t = e.touches[0];
+  const dx = t.clientX - touchDrag.startX;
+  const dy = t.clientY - touchDrag.startY;
+  touchDrag.el.style.left = (touchDrag.ox + dx) + 'px';
+  touchDrag.el.style.top = (touchDrag.oy + dy) + 'px';
+  redrawConnectors();
+});
+window.addEventListener('touchend', ()=>{ touchDrag.el = null; });
+
+// optional: keyboard arrow nudging when node focused
+document.querySelectorAll('.node').forEach(n=>{
+  n.tabIndex = 0;
+  n.addEventListener('keydown', e=>{
+    const step = e.shiftKey ? 10 : 2;
+    const left = parseFloat(getComputedStyle(n).left || 0);
+    const top = parseFloat(getComputedStyle(n).top || 0);
+    if(e.key === 'ArrowLeft'){ n.style.left = (left - step) + 'px'; redrawConnectors(); e.preventDefault(); }
+    if(e.key === 'ArrowRight'){ n.style.left = (left + step) + 'px'; redrawConnectors(); e.preventDefault(); }
+    if(e.key === 'ArrowUp'){ n.style.top = (top - step) + 'px'; redrawConnectors(); e.preventDefault(); }
+    if(e.key === 'ArrowDown'){ n.style.top = (top + step) + 'px'; redrawConnectors(); e.preventDefault(); }
+  });
+});
+
+</script>
+</body>
+</html>
